@@ -1,0 +1,47 @@
+{
+  "name": "@gogors/md5-wasm",
+  "version": "1.0.0",
+  "description": "MD5 implemented with WebAssembly",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test:html": "http-server . -p 8080 -o /tests/index.html",
+    "test:node": "ava"
+  },
+  "main": "./pkg/node/md5_wasm.cjs",
+  "module": "./pkg/bundler/md5_wasm.js",
+  "browser": "./pkg/bundler/md5_wasm.js",
+  "unpkg": "./pkg/no-modules/md5_wasm.js",
+  "exports": {
+    ".": {
+      "import": "./pkg/bundler/md5_wasm.js",
+      "require": "./pkg/node/md5_wasm.cjs",
+      "browser": "./pkg/bundler/md5_wasm.js",
+      "default": "./pkg/bundler/md5_wasm.js"
+    }
+  },
+  "files": [
+    "pkg/**/*"
+  ],
+  "keywords": [
+    "md5",
+    "md5-wasm"
+  ],
+  "author": "Pursue-LLL <yululiu2018@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pursue-LLL/md5-wasm.git"
+  },
+  "devDependencies": {
+    "ava": "^5.3.1",
+    "md5": "^2.3.0",
+    "http-server": "^14.1.1"
+  },
+  "license": "MIT",
+  "ava": {
+    "files": [
+      "tests/**/*test.cjs"
+    ],
+    "timeout": "2m"
+  }
+}

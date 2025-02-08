@@ -1,0 +1,68 @@
+<!-- 用于Web 和 no-module 测试 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>MD5 WASM Test</title>
+  <style>
+    #output {
+      white-space: pre-wrap;
+      font-family: monospace;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin: 10px;
+      max-height: 500px;
+      overflow: auto;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .loading {
+      color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>MD5 WebAssembly Test</h1>
+  <input type="text" id="inputText" value="hello" placeholder="Enter text to hash">
+  <button id="hashButton">Compute MD5</button>
+  <div id="output"></div>
+
+  <!-- 测试 no-modules （打包形式为IIFE）-->
+  <script src="../pkg/no-modules/md5_wasm.js"></script>
+  <script>
+    (async () => {
+      // 初始化wasm
+      await wasm_bindgen();
+
+      // 获取md5函数
+      const { md5 } = wasm_bindgen;
+
+      document.getElementById('hashButton').addEventListener('click', () => {
+        const inputText = document.getElementById('inputText').value;
+        const hash = md5(inputText);
+        document.getElementById('output').textContent = `MD5: ${hash}`;
+      });
+    })();
+  </script>
+
+  <!-- 测试 esm （打包形式为bundler）-->
+  <div id="esmoutput"></div>
+  <script type="module">
+    import init, { md5 } from '../pkg/web/md5_wasm.js';
+    init().then(() => {
+      document.getElementById('esmoutput').innerHTML = md5('hello') === '5d41402abc4b2a76b9719d911017c592' ? 'md5("hello") === "5d41402abc4b2a76b9719d911017c592" 通过' : 'md5("hello") === "5d41402abc4b2a76b9719d911017c592" 不通过';
+      document.getElementById('esmoutput').classList.add(md5('hello') === '5d41402abc4b2a76b9719d911017c592' ? 'success' : 'error');
+    });
+  </script>
+</body>
+
+</html>
