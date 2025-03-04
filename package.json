@@ -1,6 +1,6 @@
 {
   "name": "@gogors/md5-wasm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MD5 implemented with WebAssembly",
   "type": "module",
   "scripts": {
@@ -18,7 +18,8 @@
       "require": "./pkg/node/md5_wasm.cjs",
       "browser": "./pkg/bundler/md5_wasm.js",
       "default": "./pkg/bundler/md5_wasm.js"
-    }
+    },
+    "./pkg/*": "./pkg/*"
   },
   "files": [
     "pkg/**/*"

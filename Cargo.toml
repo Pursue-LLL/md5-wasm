@@ -10,9 +10,13 @@ authors = ["Pursue-LLL <yululiu2018@gmail.com>"]
 repository = "git+https://github.com/Pursue-LLL/md5-wasm.git"
 
 # C ABI： 定义了程序在二进制层面进行交互的规则，包括数据类型表示、函数调用约定等。只要不同的编程语言生成的代码都符合 C ABI，它们就可以互相调用，而无需关心彼此使用的具体编程语言或编译器。
-# wasm-bindgen 通过cabi的方式去调用rust按照cabi的规则编译好的二进制.wasm 文件，然后生成js胶水代码以在js中使用
-# 动态链接库更适合跨语言调用，所以使用cdylib
+# wasm-bindgen生成的胶水代码中用js调用rust按照cabi的规则编译好的二进制.wasm 文件，然后生成js胶水代码
+# 动态链接库更适合跨语言调用，所以使用cdylib，Node.js/浏览器只能加载符合 C ABI 的二进制文件，如.node或.wasm
+# 其他 crate 类型：
+# rlib：Rust 静态库，用于 Rust 内部链接，不暴露 C ABI。
+# staticlib：C 静态库，需要链接到其他 C/C++ 项目，但无法被 Node.js 或浏览器直接加载。
 [lib]
+# 指定 crate 类型为 cdylib，将target如wasm32-unknown-unknown或x86_64-apple-darwin等编译为符合C ABI的二进制文件（动态链接库），然后由wasm-bindgen或napi-rs生成目标平台可用的胶水代码
 crate-type = ["cdylib"]
 
 [dependencies]
